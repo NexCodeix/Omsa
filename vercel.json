@@ -1,15 +1,26 @@
 {
-  "builds": [
-    {
-      "src": "Omsa/wsgi.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "50mb" }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "Omsa/wsgi.py"
-    }
-  ]
+    "builds": [
+        {
+            "src": "build_files.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles_build"
+            }
+        },
+        {
+            "src": "/Omsa/wsgi.py",
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "15mb" }
+        }
+    ],
+        "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "Omsa/wsgi.py"
+        },
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        }
+    ]
 }

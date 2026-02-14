@@ -1,4 +1,7 @@
-echo "Installing dependencies..."
+echo "Now will install packages"
+python3 -m pip install -r requirements.txt
+echo "Package installed"
 
-python manage.py migrate
-python manage.py collectstatic --noinput
+echo "Collecting static folder"
+python3 manage.py collectstatic --noinput
+echo "Collected"
