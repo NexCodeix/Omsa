@@ -1,23 +1,15 @@
 import os
 from pathlib import Path
 
-import environ
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Initialise environment variables
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False),
-)
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-replace-this-in-production'
 
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-
-SECRET_KEY = env("DJANGO_SECRET_KEY")
-
+# For local development; set to False and configure hosts for production
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -69,12 +61,8 @@ WSGI_APPLICATION = 'Omsa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env("DJANGO_DB_ENGINE", default="django.db.backends.sqlite3"),
-        'NAME': env("DJANGO_DB_NAME", default=str(BASE_DIR / 'db.sqlite3')),
-        'USER': env("DJANGO_DB_USER", default=""),
-        'PASSWORD': env("DJANGO_DB_PASSWORD", default=""),
-        'HOST': env("DJANGO_DB_HOST", default=""),
-        'PORT': env("DJANGO_DB_PORT", default=""),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -127,8 +115,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Security settings for production (can be tuned via env as needed)
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=not DEBUG)
-CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=not DEBUG)
-SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=0 if DEBUG else 31536000)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=not DEBUG)
-SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=not DEBUG)
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
