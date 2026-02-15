@@ -64,6 +64,7 @@ class AamarPayGateway:
             payload.update(extra_fields)
         
         headers = {"Content-Type": "application/json"}
+        print(payload)
 
         response = requests.post(self.base_url, headers=headers, data=json.dumps(payload))
         response.raise_for_status()

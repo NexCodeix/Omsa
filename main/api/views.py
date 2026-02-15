@@ -30,13 +30,13 @@ class CreatePaymentView(APIView):
                 amount=1500,
                 cus_name=validated["cus_name"],
                 cus_email=validated["cus_email"],
-                cus_add1=validated["cus_add1"],
-                cus_add2=validated["cus_add2"],
-                cus_city=validated["cus_city"],
-                cus_state=validated["cus_state"],
-                cus_postcode=validated["cus_postcode"],
-                cus_country=validated["cus_country"],
                 cus_phone=validated["cus_phone"],
+                cus_add1="",
+                cus_add2="",
+                cus_city="",
+                cus_state="",
+                cus_postcode="",
+                cus_country="",
                 # No extra_fields for now; everything is captured by the serializer
             )
         except Exception as exc:  # noqa: BLE001 - simple API error wrapper
