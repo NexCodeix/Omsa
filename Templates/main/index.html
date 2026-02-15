@@ -8,4 +8,54 @@
 <body>
     <a href="{% url 'api-create-payment' %}">Begin Registration</a>
 </body>
+
+<script>
+    document.querySelector('a').addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch(this.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                    "amount": 1500,
+                    "cus_name": "random",
+                    "cus_email": "random@gmail.com",
+                    "cus_add1": "",
+                    "cus_add2": "",
+                    "cus_city": "",
+                    "cus_state": "",
+                    "cus_phone": "+8801918208891",
+                    "cus_postcode": "123",
+                    "cus_country": "BD"
+                })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            var paymentUrl = data.gateway_response.payment_url;
+            fetch(paymentUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({"url": "http://localhost:5678/webhook-test/reg-start"})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Handle the payment response data
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
 </html>
