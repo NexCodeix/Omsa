@@ -34,23 +34,24 @@
         .then(response => response.json())
         .then(data => {
             console.log(data);
+
+
             var paymentUrl = data.gateway_response.payment_url;
-            fetch(paymentUrl, {
+            fetch("http://localhost:5678/webhook-test/reg-start", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
                 },
-                body: JSON.stringify({"url": "http://localhost:5678/webhook-test/reg-start"})
+                body: JSON.stringify({"url": paymentUrl})
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                // Handle the payment response data
+            .then(response => {
+                console.log(response);
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.log('Error from webhook:', error);
             });
+
+
         })
         .catch(error => {
             console.error('Error:', error);
