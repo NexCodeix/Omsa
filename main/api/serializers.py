@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 
 class CreatePaymentSerializer(serializers.Serializer):
-    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
     cus_name = serializers.CharField(max_length=255)
     cus_email = serializers.EmailField()
     cus_add1 = serializers.CharField(max_length=255, required=False, allow_blank=True)
